@@ -17,7 +17,10 @@ A modern, responsive Next.js application for tracking home maintenance tasks wit
 
 - **Framework**: Next.js 15 (App Router)
 - **Language**: TypeScript
-- **Styling**: Tailwind CSS
+- **UI Components**: shadcn/ui (Radix UI primitives)
+- **Styling**: Tailwind CSS v4
+- **Typography**: Inter font family with Next.js font optimization
+- **Icons**: Lucide React
 - **Data Storage**: JSON file-based storage (easy to upgrade to a database)
 - **Deployment**: Vercel-ready
 

@@ -2,10 +2,15 @@
 
 import { useState, useEffect } from 'react';
 import { MaintenanceTask, FrequencyFilter } from '@/types/maintenance';
-import { getTaskStatus, getStatusColor, formatDate, getDaysUntilDue } from '@/lib/utils';
+import { getTaskStatus, getDaysUntilDue } from '@/lib/utils';
 import TaskCard from '@/components/TaskCard';
 import FilterBar from '@/components/FilterBar';
 import AddTaskModal from '@/components/AddTaskModal';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Plus, Home as HomeIcon, AlertCircle, Clock, CheckCircle2, Package } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Home() {
   const [tasks, setTasks] = useState<MaintenanceTask[]>([]);
@@ -82,62 +87,122 @@ export default function Home() {
 
   const overdueTasks = tasks.filter(t => getTaskStatus(t) === 'overdue').length;
   const dueSoonTasks = tasks.filter(t => getTaskStatus(t) === 'due-soon').length;
+  const upcomingTasks = tasks.filter(t => getTaskStatus(t) === 'upcoming').length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            House Maintenance Tracker
-          </h1>
-          <p className="text-gray-600 dark:text-gray-300">
-            Keep your home in top shape with scheduled maintenance reminders
-          </p>
-          <div className="mt-4 flex gap-4">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow px-4 py-2">
-              <span className="text-sm text-gray-600 dark:text-gray-400">Overdue: </span>
-              <span className="text-lg font-bold text-red-600">{overdueTasks}</span>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-slate-50 to-zinc-50 dark:from-gray-950 dark:via-slate-950 dark:to-zinc-950">
+      <div className="container mx-auto px-6 sm:px-8 lg:px-12 py-6 sm:py-8 lg:py-12 max-w-7xl">
+        {/* Header */}
+        <div className="mb-6 sm:mb-8 lg:mb-10 space-y-4 sm:space-y-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+            <div className="p-3 bg-gradient-to-br from-slate-800 to-gray-900 shadow-lg">
+              <HomeIcon className="h-8 w-8 text-white" />
             </div>
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow px-4 py-2">
-              <span className="text-sm text-gray-600 dark:text-gray-400">Due Soon: </span>
-              <span className="text-lg font-bold text-yellow-600">{dueSoonTasks}</span>
+            <div>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight bg-gradient-to-r from-slate-900 to-gray-700 dark:from-white dark:to-slate-300 bg-clip-text text-transparent leading-tight">
+                House Maintenance Tracker
+              </h1>
+              <p className="text-muted-foreground mt-1">
+                Keep your home in top shape with scheduled maintenance reminders
+              </p>
             </div>
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow px-4 py-2">
-              <span className="text-sm text-gray-600 dark:text-gray-400">Total Tasks: </span>
-              <span className="text-lg font-bold text-blue-600">{tasks.length}</span>
             </div>
+            <Link href="/appliances">
+              <Button variant="outline">
+                <Package className="mr-2 h-4 w-4" />
+                Appliances
+              </Button>
+            </Link>
+          </div>
+
+          {/* Stats Cards */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+            <Card className="bg-gradient-to-br from-slate-50 to-white dark:from-slate-900/50 dark:to-slate-900">
+              <CardContent className="pt-4 sm:pt-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">Overdue</p>
+                    <p className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100">{overdueTasks}</p>
+                  </div>
+                  <AlertCircle className="h-10 w-10 text-slate-700 dark:text-slate-400 opacity-50" />
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-gradient-to-br from-gray-50 to-white dark:from-gray-900/50 dark:to-slate-900">
+              <CardContent className="pt-4 sm:pt-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">Due Soon</p>
+                    <p className="text-2xl sm:text-3xl font-bold text-gray-700 dark:text-gray-300">{dueSoonTasks}</p>
+                  </div>
+                  <Clock className="h-10 w-10 text-gray-600 dark:text-gray-400 opacity-50" />
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-gradient-to-br from-zinc-50 to-white dark:from-zinc-900/50 dark:to-slate-900">
+              <CardContent className="pt-4 sm:pt-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">Upcoming</p>
+                    <p className="text-2xl sm:text-3xl font-bold text-zinc-600 dark:text-zinc-400">{upcomingTasks}</p>
+                  </div>
+                  <CheckCircle2 className="h-10 w-10 text-zinc-500 dark:text-zinc-400 opacity-50" />
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-gradient-to-br from-slate-50 to-white dark:from-slate-900/50 dark:to-slate-900">
+              <CardContent className="pt-4 sm:pt-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">Total Tasks</p>
+                    <p className="text-2xl sm:text-3xl font-bold text-slate-800 dark:text-slate-200">{tasks.length}</p>
+                  </div>
+                  <HomeIcon className="h-10 w-10 text-slate-600 dark:text-slate-400 opacity-50" />
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
 
+        {/* Filter Bar */}
         <FilterBar filter={filter} onFilterChange={setFilter} />
 
+        {/* Add Task Button */}
         <div className="mb-6">
-          <button
+          <Button
             onClick={() => setIsModalOpen(true)}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition-colors"
+            size="lg"
+            className="bg-gradient-to-r from-slate-700 to-gray-800 hover:from-slate-800 hover:to-gray-900 shadow-lg"
           >
-            + Add New Task
-          </button>
+            <Plus className="mr-2 h-5 w-5" />
+            Add New Task
+          </Button>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {sortedTasks.map((task) => (
-            <TaskCard
-              key={task.id}
-              task={task}
-              onMarkDone={handleMarkDone}
-              onDelete={handleDeleteTask}
-              onUpdate={handleUpdateTask}
-            />
-          ))}
-        </div>
-
-        {sortedTasks.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-500 dark:text-gray-400 text-lg">
-              No tasks found for the selected filter.
-            </p>
+        {/* Tasks Grid */}
+        {sortedTasks.length > 0 ? (
+          <div className="grid gap-4 sm:gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {sortedTasks.map((task) => (
+              <TaskCard
+                key={task.id}
+                task={task}
+                onMarkDone={handleMarkDone}
+                onDelete={handleDeleteTask}
+                onUpdate={handleUpdateTask}
+              />
+            ))}
           </div>
+        ) : (
+          <Alert>
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>
+              No tasks found for the selected filter. Try changing the filter or add a new task.
+            </AlertDescription>
+          </Alert>
         )}
       </div>
 

@@ -2,7 +2,14 @@
 
 import { useState } from 'react';
 import { MaintenanceTask } from '@/types/maintenance';
-import { getTaskStatus, getStatusColor, formatDate, getDaysUntilDue } from '@/lib/utils';
+import { getTaskStatus, formatDate, getDaysUntilDue } from '@/lib/utils';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { CheckCircle2, Pencil, Trash2, Save, X, Calendar, Clock, Tag } from 'lucide-react';
 
 interface TaskCardProps {
   task: MaintenanceTask;
@@ -16,7 +23,6 @@ export default function TaskCard({ task, onMarkDone, onDelete, onUpdate }: TaskC
   const [editedTask, setEditedTask] = useState(task);
 
   const status = getTaskStatus(task);
-  const statusColor = getStatusColor(status);
   const daysUntil = getDaysUntilDue(task.nextDue);
 
   const handleSave = () => {
@@ -29,143 +35,197 @@ export default function TaskCard({ task, onMarkDone, onDelete, onUpdate }: TaskC
     setIsEditing(false);
   };
 
+  const getStatusBadgeVariant = (status: string) => {
+    switch (status) {
+      case 'overdue':
+        return 'destructive';
+      case 'due-soon':
+        return 'default';
+      case 'upcoming':
+        return 'secondary';
+      default:
+        return 'outline';
+    }
+  };
+
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+      case 'overdue':
+        return 'Overdue';
+      case 'due-soon':
+        return 'Due Soon';
+      case 'upcoming':
+        return 'Upcoming';
+      default:
+        return 'Not Set';
+    }
+  };
+
+  const getBorderColor = (status: string) => {
+    // No border colors needed anymore
+    return '';
+  };
+
   if (isEditing) {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Task Name
-            </label>
-            <input
-              type="text"
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">Edit Task</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="task-name">Task Name</Label>
+            <Input
+              id="task-name"
               value={editedTask.task}
               onChange={(e) => setEditedTask({ ...editedTask, task: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
             />
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Category
-            </label>
-            <input
-              type="text"
+
+          <div className="space-y-2">
+            <Label htmlFor="category">Category</Label>
+            <Input
+              id="category"
               value={editedTask.category}
               onChange={(e) => setEditedTask({ ...editedTask, category: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              placeholder="e.g., HVAC, Plumbing"
             />
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Frequency
-            </label>
-            <select
+
+          <div className="space-y-2">
+            <Label htmlFor="frequency">Frequency</Label>
+            <Select
               value={editedTask.frequency}
-              onChange={(e) => setEditedTask({ ...editedTask, frequency: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              onValueChange={(value) => setEditedTask({ ...editedTask, frequency: value || '' })}
             >
-              <option value="Monthly">Monthly</option>
-              <option value="Every 3 Months">Every 3 Months</option>
-              <option value="Bi-Annually">Bi-Annually</option>
-              <option value="Annually">Annually</option>
-            </select>
+              <SelectTrigger id="frequency">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Monthly">Monthly</SelectItem>
+                <SelectItem value="Every 3 Months">Every 3 Months</SelectItem>
+                <SelectItem value="Bi-Annually">Bi-Annually</SelectItem>
+                <SelectItem value="Annually">Annually</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Next Due
-            </label>
-            <input
+
+          <div className="space-y-2">
+            <Label htmlFor="next-due">Next Due Date</Label>
+            <Input
+              id="next-due"
               type="date"
               value={editedTask.nextDue}
               onChange={(e) => setEditedTask({ ...editedTask, nextDue: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
             />
           </div>
-          <div className="flex gap-2">
-            <button
-              onClick={handleSave}
-              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors"
-            >
+
+          <div className="flex gap-2 pt-2">
+            <Button onClick={handleSave} className="flex-1">
+              <Save className="mr-2 h-4 w-4" />
               Save
-            </button>
-            <button
-              onClick={handleCancel}
-              className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium py-2 px-4 rounded-md transition-colors dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
-            >
+            </Button>
+            <Button onClick={handleCancel} variant="outline" className="flex-1">
+              <X className="mr-2 h-4 w-4" />
               Cancel
-            </button>
+            </Button>
           </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     );
   }
 
   return (
-    <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 border-l-4 ${statusColor}`}>
-      <div className="flex justify-between items-start mb-3">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-          {task.task}
-        </h3>
-        <span className={`px-2 py-1 rounded-full text-xs font-medium ${statusColor}`}>
-          {status === 'not-set' ? 'Not Set' : status.replace('-', ' ').toUpperCase()}
-        </span>
-      </div>
-
-      {task.category && (
-        <div className="mb-2">
-          <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded dark:bg-blue-900 dark:text-blue-200">
-            {task.category}
-          </span>
+    <Card className="hover:shadow-lg transition-shadow duration-200">
+      <CardHeader>
+        <div className="flex items-start justify-between gap-2">
+          <CardTitle className="text-lg leading-tight">{task.task}</CardTitle>
+          <Badge variant={getStatusBadgeVariant(status)} className="shrink-0">
+            {getStatusLabel(status)}
+          </Badge>
         </div>
-      )}
-
-      <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-        <div className="flex justify-between">
-          <span className="font-medium">Frequency:</span>
-          <span>{task.frequency || 'Not set'}</span>
-        </div>
-        <div className="flex justify-between">
-          <span className="font-medium">Last Done:</span>
-          <span>{formatDate(task.lastDone)}</span>
-        </div>
-        <div className="flex justify-between">
-          <span className="font-medium">Next Due:</span>
-          <span>{formatDate(task.nextDue)}</span>
-        </div>
-        {daysUntil !== null && (
-          <div className="flex justify-between font-semibold">
-            <span>Days until due:</span>
-            <span className={daysUntil < 0 ? 'text-red-600' : daysUntil <= 7 ? 'text-yellow-600' : 'text-green-600'}>
-              {daysUntil < 0 ? `${Math.abs(daysUntil)} days overdue` : `${daysUntil} days`}
-            </span>
+        {task.category && (
+          <div className="flex items-center gap-1 mt-2">
+            <Tag className="h-3 w-3 text-muted-foreground" />
+            <Badge variant="outline" className="text-xs">
+              {task.category}
+            </Badge>
           </div>
         )}
-      </div>
+      </CardHeader>
 
-      <div className="mt-4 flex gap-2">
-        <button
-          onClick={() => onMarkDone(task.id)}
-          className="flex-1 bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md transition-colors text-sm"
-        >
-          Mark Done
-        </button>
-        <button
-          onClick={() => setIsEditing(true)}
-          className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors text-sm"
-        >
-          Edit
-        </button>
-        <button
-          onClick={() => {
-            if (confirm('Are you sure you want to delete this task?')) {
-              onDelete(task.id);
-            }
-          }}
-          className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md transition-colors text-sm"
-        >
-          Delete
-        </button>
-      </div>
-    </div>
+      <CardContent className="space-y-4">
+        <div className="space-y-3 text-sm">
+          <div className="flex items-center justify-between">
+            <span className="text-muted-foreground flex items-center gap-1">
+              <Clock className="h-4 w-4" />
+              Frequency
+            </span>
+            <span className="font-medium">{task.frequency || 'Not set'}</span>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <span className="text-muted-foreground flex items-center gap-1">
+              <Calendar className="h-4 w-4" />
+              Last Done
+            </span>
+            <span className="font-medium">{formatDate(task.lastDone)}</span>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <span className="text-muted-foreground flex items-center gap-1">
+              <Calendar className="h-4 w-4" />
+              Next Due
+            </span>
+            <span className="font-medium">{formatDate(task.nextDue)}</span>
+          </div>
+
+          {daysUntil !== null && (
+            <div className="flex items-center justify-between pt-2 border-t">
+              <span className="font-semibold text-foreground">Days until due:</span>
+              <span className={`font-bold ${
+                daysUntil < 0
+                  ? 'text-slate-900 dark:text-slate-100'
+                  : daysUntil <= 7
+                  ? 'text-gray-700 dark:text-gray-300'
+                  : 'text-zinc-600 dark:text-zinc-400'
+              }`}>
+                {daysUntil < 0 ? `${Math.abs(daysUntil)} days overdue` : `${daysUntil} days`}
+              </span>
+            </div>
+          )}
+        </div>
+
+        <div className="flex gap-2 pt-2">
+          <Button
+            onClick={() => onMarkDone(task.id)}
+            className="flex-1 bg-slate-700 hover:bg-slate-800 dark:bg-slate-600 dark:hover:bg-slate-700"
+            size="sm"
+          >
+            <CheckCircle2 className="mr-2 h-4 w-4" />
+            Done
+          </Button>
+          <Button
+            onClick={() => setIsEditing(true)}
+            variant="outline"
+            size="sm"
+          >
+            <Pencil className="h-4 w-4" />
+          </Button>
+          <Button
+            onClick={() => {
+              if (confirm('Are you sure you want to delete this task?')) {
+                onDelete(task.id);
+              }
+            }}
+            variant="outline"
+            size="sm"
+            className="text-slate-700 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-slate-100 dark:hover:bg-slate-800"
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

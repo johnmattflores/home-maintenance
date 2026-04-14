@@ -2,6 +2,18 @@
 
 import { useState } from 'react';
 import { MaintenanceTask } from '@/types/maintenance';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Plus } from 'lucide-react';
 
 interface AddTaskModalProps {
   isOpen: boolean;
@@ -32,99 +44,96 @@ export default function AddTaskModal({ isOpen, onClose, onAdd }: AddTaskModalPro
     }
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-          Add New Task
-        </h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Task Name *
-            </label>
-            <input
-              type="text"
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-[500px]">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2">
+            <Plus className="h-5 w-5" />
+            Add New Maintenance Task
+          </DialogTitle>
+          <DialogDescription>
+            Create a new maintenance task to track for your home.
+          </DialogDescription>
+        </DialogHeader>
+
+        <form onSubmit={handleSubmit} className="space-y-4 pt-4">
+          <div className="space-y-2">
+            <Label htmlFor="new-task-name">
+              Task Name <span className="text-red-500">*</span>
+            </Label>
+            <Input
+              id="new-task-name"
               value={task.task}
               onChange={(e) => setTask({ ...task, task: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              placeholder="e.g., Replace HVAC Filters"
               required
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Category
-            </label>
-            <input
-              type="text"
+          <div className="space-y-2">
+            <Label htmlFor="new-category">Category</Label>
+            <Input
+              id="new-category"
               value={task.category}
               onChange={(e) => setTask({ ...task, category: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
               placeholder="e.g., HVAC, Plumbing, Safety"
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Frequency *
-            </label>
-            <select
+          <div className="space-y-2">
+            <Label htmlFor="new-frequency">
+              Frequency <span className="text-red-500">*</span>
+            </Label>
+            <Select
               value={task.frequency}
-              onChange={(e) => setTask({ ...task, frequency: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-              required
+              onValueChange={(value) => setTask({ ...task, frequency: value || '' })}
             >
-              <option value="Monthly">Monthly</option>
-              <option value="Every 3 Months">Every 3 Months</option>
-              <option value="Bi-Annually">Bi-Annually</option>
-              <option value="Annually">Annually</option>
-            </select>
+              <SelectTrigger id="new-frequency">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Monthly">Monthly</SelectItem>
+                <SelectItem value="Every 3 Months">Every 3 Months</SelectItem>
+                <SelectItem value="Bi-Annually">Bi-Annually</SelectItem>
+                <SelectItem value="Annually">Annually</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Last Done
-            </label>
-            <input
-              type="date"
-              value={task.lastDone}
-              onChange={(e) => setTask({ ...task, lastDone: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-            />
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="new-last-done">Last Done</Label>
+              <Input
+                id="new-last-done"
+                type="date"
+                value={task.lastDone}
+                onChange={(e) => setTask({ ...task, lastDone: e.target.value })}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="new-next-due">Next Due</Label>
+              <Input
+                id="new-next-due"
+                type="date"
+                value={task.nextDue}
+                onChange={(e) => setTask({ ...task, nextDue: e.target.value })}
+              />
+            </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Next Due
-            </label>
-            <input
-              type="date"
-              value={task.nextDue}
-              onChange={(e) => setTask({ ...task, nextDue: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-            />
-          </div>
-
-          <div className="flex gap-2 pt-4">
-            <button
-              type="submit"
-              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors"
-            >
+          <div className="flex gap-3 pt-4">
+            <Button type="submit" className="flex-1 bg-gradient-to-r from-slate-700 to-gray-800 hover:from-slate-800 hover:to-gray-900">
+              <Plus className="mr-2 h-4 w-4" />
               Add Task
-            </button>
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium py-2 px-4 rounded-md transition-colors dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
-            >
+            </Button>
+            <Button type="button" onClick={onClose} variant="outline" className="flex-1">
               Cancel
-            </button>
+            </Button>
           </div>
         </form>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }
