@@ -1,0 +1,38 @@
+[
+  {
+    "id": "1",
+    "month": "2026-04",
+    "utilities": {
+      "Electric": 145,
+      "Gas": 85,
+      "Water": 45,
+      "Internet": 80,
+      "Mobility": 259.24
+    },
+    "total": 614.24
+  },
+  {
+    "id": "2",
+    "month": "2026-02",
+    "utilities": {
+      "Electric": 135,
+      "Gas": 95,
+      "Water": 42,
+      "Internet": 81.9,
+      "Mobility": 239.25
+    },
+    "total": 593.15
+  },
+  {
+    "id": "3",
+    "month": "2026-03",
+    "utilities": {
+      "Electric": 120,
+      "Gas": 75,
+      "Water": 48,
+      "Internet": 81.9,
+      "Mobility": 239.25
+    },
+    "total": 564.15
+  }
+]

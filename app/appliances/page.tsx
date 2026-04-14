@@ -5,7 +5,7 @@ import { Appliance } from '@/types/appliance';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Package, DollarSign, Calendar, FileText, Wrench, ExternalLink } from 'lucide-react';
+import { Plus, Package, DollarSign, Calendar, FileText, Wrench, ExternalLink, Receipt, Home as HomeIcon } from 'lucide-react';
 import Link from 'next/link';
 import ApplianceCard from '@/components/ApplianceCard';
 import AddApplianceModal from '@/components/AddApplianceModal';
@@ -86,11 +86,20 @@ export default function AppliancesPage() {
                 </p>
               </div>
             </div>
-            <Link href="/">
-              <Button variant="outline">
-                Back to Maintenance
-              </Button>
-            </Link>
+            <div className="flex gap-2">
+              <Link href="/">
+                <Button variant="outline">
+                  <HomeIcon className="mr-2 h-4 w-4" />
+                  Maintenance
+                </Button>
+              </Link>
+              <Link href="/utility-bills">
+                <Button variant="outline">
+                  <Receipt className="mr-2 h-4 w-4" />
+                  Bills
+                </Button>
+              </Link>
+            </div>
           </div>
 
           {/* Stats Cards */}

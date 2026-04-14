@@ -9,7 +9,7 @@ import AddTaskModal from '@/components/AddTaskModal';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Plus, Home as HomeIcon, AlertCircle, Clock, CheckCircle2, Package } from 'lucide-react';
+import { Plus, Home as HomeIcon, AlertCircle, Clock, CheckCircle2, Package, Receipt } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Home() {
@@ -108,12 +108,20 @@ export default function Home() {
               </p>
             </div>
             </div>
-            <Link href="/appliances">
-              <Button variant="outline">
-                <Package className="mr-2 h-4 w-4" />
-                Appliances
-              </Button>
-            </Link>
+            <div className="flex gap-2">
+              <Link href="/appliances">
+                <Button variant="outline">
+                  <Package className="mr-2 h-4 w-4" />
+                  Appliances
+                </Button>
+              </Link>
+              <Link href="/utility-bills">
+                <Button variant="outline">
+                  <Receipt className="mr-2 h-4 w-4" />
+                  Bills
+                </Button>
+              </Link>
+            </div>
           </div>
 
           {/* Stats Cards */}
