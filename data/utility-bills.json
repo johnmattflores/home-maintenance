@@ -3,36 +3,36 @@
     "id": "1",
     "month": "2026-04",
     "utilities": {
-      "Electric": 145,
-      "Gas": 85,
-      "Water": 45,
-      "Internet": 80,
+      "Electric": 136.64,
+      "Gas": 101.5,
+      "City Charges": 99.84,
+      "Internet": 81.9,
       "Mobility": 259.24
     },
-    "total": 614.24
+    "total": 679.12
   },
   {
     "id": "2",
     "month": "2026-02",
     "utilities": {
-      "Electric": 135,
-      "Gas": 95,
-      "Water": 42,
+      "Electric": 115.82,
+      "Gas": 136.11,
+      "City Charges": 91.44,
       "Internet": 81.9,
       "Mobility": 239.25
     },
-    "total": 593.15
+    "total": 664.52
   },
   {
     "id": "3",
     "month": "2026-03",
     "utilities": {
-      "Electric": 120,
-      "Gas": 75,
-      "Water": 48,
+      "Electric": 143.03,
+      "Gas": 90.88,
+      "City Charges": 97.9,
       "Internet": 81.9,
       "Mobility": 239.25
     },
-    "total": 564.15
+    "total": 652.96
   }
 ]

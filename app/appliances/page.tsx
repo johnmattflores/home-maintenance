@@ -5,8 +5,7 @@ import { Appliance } from '@/types/appliance';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Package, DollarSign, Calendar, FileText, Wrench, ExternalLink, Receipt, Home as HomeIcon } from 'lucide-react';
-import Link from 'next/link';
+import { Plus, Package, DollarSign, Calendar, FileText, Wrench, ExternalLink } from 'lucide-react';
 import ApplianceCard from '@/components/ApplianceCard';
 import AddApplianceModal from '@/components/AddApplianceModal';
 
@@ -72,33 +71,17 @@ export default function AppliancesPage() {
       <div className="container mx-auto px-6 sm:px-8 lg:px-12 py-6 sm:py-8 lg:py-12 max-w-7xl">
         {/* Header */}
         <div className="mb-6 sm:mb-8 lg:mb-10 space-y-4 sm:space-y-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="p-3 bg-gradient-to-br from-slate-800 to-gray-900 shadow-lg">
-                <Package className="h-8 w-8 text-white" />
-              </div>
-              <div>
-                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight bg-gradient-to-r from-slate-900 to-gray-700 dark:from-white dark:to-slate-300 bg-clip-text text-transparent leading-tight">
-                  Appliances
-                </h1>
-                <p className="text-muted-foreground mt-1">
-                  Track your home appliances, warranties, and service history
-                </p>
-              </div>
+          <div className="flex items-center gap-3">
+            <div className="p-3 bg-gradient-to-br from-slate-800 to-gray-900 shadow-lg">
+              <Package className="h-8 w-8 text-white" />
             </div>
-            <div className="flex gap-2">
-              <Link href="/">
-                <Button variant="outline">
-                  <HomeIcon className="mr-2 h-4 w-4" />
-                  Maintenance
-                </Button>
-              </Link>
-              <Link href="/utility-bills">
-                <Button variant="outline">
-                  <Receipt className="mr-2 h-4 w-4" />
-                  Bills
-                </Button>
-              </Link>
+            <div>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight bg-gradient-to-r from-slate-900 to-gray-700 dark:from-white dark:to-slate-300 bg-clip-text text-transparent leading-tight">
+                Appliances
+              </h1>
+              <p className="text-muted-foreground mt-1">
+                Track your home appliances, warranties, and service history
+              </p>
             </div>
           </div>
 

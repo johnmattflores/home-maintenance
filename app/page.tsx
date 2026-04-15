@@ -9,8 +9,7 @@ import AddTaskModal from '@/components/AddTaskModal';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Plus, Home as HomeIcon, AlertCircle, Clock, CheckCircle2, Package, Receipt } from 'lucide-react';
-import Link from 'next/link';
+import { Plus, Home as HomeIcon, AlertCircle, Clock, CheckCircle2 } from 'lucide-react';
 
 export default function Home() {
   const [tasks, setTasks] = useState<MaintenanceTask[]>([]);
@@ -94,8 +93,7 @@ export default function Home() {
       <div className="container mx-auto px-6 sm:px-8 lg:px-12 py-6 sm:py-8 lg:py-12 max-w-7xl">
         {/* Header */}
         <div className="mb-6 sm:mb-8 lg:mb-10 space-y-4 sm:space-y-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3">
             <div className="p-3 bg-gradient-to-br from-slate-800 to-gray-900 shadow-lg">
               <HomeIcon className="h-8 w-8 text-white" />
             </div>
@@ -106,21 +104,6 @@ export default function Home() {
               <p className="text-muted-foreground mt-1">
                 Keep your home in top shape with scheduled maintenance reminders
               </p>
-            </div>
-            </div>
-            <div className="flex gap-2">
-              <Link href="/appliances">
-                <Button variant="outline">
-                  <Package className="mr-2 h-4 w-4" />
-                  Appliances
-                </Button>
-              </Link>
-              <Link href="/utility-bills">
-                <Button variant="outline">
-                  <Receipt className="mr-2 h-4 w-4" />
-                  Bills
-                </Button>
-              </Link>
             </div>
           </div>
 

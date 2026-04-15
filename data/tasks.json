@@ -5,15 +5,15 @@
     "category": "",
     "frequency": "Annually",
     "lastDone": "2026-04-14",
-    "nextDue": "2027-04-14"
+    "nextDue": "2027-03-24"
   },
   {
     "id": "2",
     "task": "Replace HVAC Filters",
     "category": "HVAC",
     "frequency": "Every 3 Months",
-    "lastDone": "2026-01-15",
-    "nextDue": "2026-04-15"
+    "lastDone": "2026-04-15",
+    "nextDue": "2026-07-15"
   },
   {
     "id": "3",

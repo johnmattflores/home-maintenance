@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import "lineicons/dist/lineicons.css";
 import PWAInstall from "@/components/PWAInstall";
+import Navbar from "@/components/Navbar";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -54,6 +56,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col font-sans">
         <PWAInstall />
+        <Navbar />
         {children}
       </body>
     </html>
